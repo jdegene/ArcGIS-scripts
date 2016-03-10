@@ -36,3 +36,21 @@ are required
 *Date: 2015*
 
 Small script that uses ArcGIS' *Extract by Mask* Tool on a number of input rasters
+
+
+
+### JoinTables.py
+
+Merges monthly tables to annual tables for several years
+
+
+
+### JoinTables2.py
+
+*Date: 2012*
+
+Similar to JoinTables.py 
+Inputs are a .dbf table per month, output are two annual tables A and B, where each
+store about half of the values.
+The logic was, that one annual table was too large for the taget program to load, as such the final table
+was split into 2 parts
