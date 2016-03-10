@@ -12,3 +12,8 @@ to a file.
 Similar to https://github.com/jdegene/Various-Python-2.x/blob/master/Abruf2.py however
 Abruf3.py does not calculate any mean values
 
+
+### Divide.py
+
+Small script that uses arcpy to divide rasters in a folder by 10
+
