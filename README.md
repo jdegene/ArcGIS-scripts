@@ -106,3 +106,15 @@ Small script that calculates the mean pixel values of 2 input rasters
 
 Calculates the sum of pixels for many rasters. Specifically written to handle rasters by months and years
 
+
+### Seasonal_Means.py
+
+*Date: 2012*
+
+Uses monthly values (e.g. from *10_Day_Means.py*) to calculate seasonal mean values (e.g. of temperatures)
+First year only uses Jan & Feb
+
+Winter = DDJ
+Spring = FMA
+Summer = JJA
+Fall = SON
