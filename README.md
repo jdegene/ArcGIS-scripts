@@ -68,6 +68,15 @@ and arcpy for conversion into GeoTiff format.
 http://cliveg.bu.edu/modismisr/lai3g-fpar3g.html
 
 
+### Landsat8_composites.py
+
+*Date: 2014*
+
+Creates Band2-Band7 composits from raw LS8 downloads with arcpy. Extracts tar.gz files, creates composites and
+automatically deletes all original input
+
+
+
 ### raster_means.py
 
 *Date: 2012*
