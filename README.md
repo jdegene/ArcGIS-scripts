@@ -54,5 +54,13 @@ Merges monthly tables to annual tables for several years
 Similar to JoinTables.py 
 Inputs are a .dbf table per month, output are two annual tables A and B, where each
 store about half of the values.
-The logic was, that one annual table was too large for the taget program to load, as such the final table
+The logic was that one annual table was too large for the taget program to load, as such the final table
 was split into 2 parts
+
+
+### raster_sums.py
+
+*Date: 2013*
+
+Calculates the sum of pixels for many rasters. Specifically written to handle rasters by months and years
+
