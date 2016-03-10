@@ -41,6 +41,8 @@ Small script that uses ArcGIS' *Extract by Mask* Tool on a number of input raste
 
 ### JoinTables.py
 
+*Date: 2012*
+
 Merges monthly tables to annual tables for several years
 
 
