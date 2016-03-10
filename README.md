@@ -15,5 +15,15 @@ Abruf3.py does not calculate any mean values
 
 ### Divide.py
 
+*Date: 2011*
+
 Small script that uses arcpy to divide rasters in a folder by 10
 
+
+### ETpot.py
+
+*Date: 2012*
+
+Calculates relativ air humidity in a raster from known Penman-Monteith Evapotranspiration
+values. Additionaly, rasters with monthly mean temperatures, solar radiation and windspeed
+are required
