@@ -73,8 +73,16 @@ http://cliveg.bu.edu/modismisr/lai3g-fpar3g.html
 *Date: 2014*
 
 Creates Band2-Band7 composits from raw LS8 downloads with arcpy. Extracts tar.gz files, creates composites and
-automatically deletes all original input
+automatically deletes all original input. 
 
+
+### Pixel_Num.py
+
+*Date: 2015*
+
+Calculates for each pixel in a list of rasters, how often a certain value appears for said pixel,
+and saves the result in a new raster. Returns also a percentage raster, how often this value appears
+relatively
 
 
 ### raster_means.py
