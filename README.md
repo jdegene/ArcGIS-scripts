@@ -1,6 +1,8 @@
 # ArcGIS-scripts
 Scripts for ArcGIS 10.x in Python 2.7
 
+*NOTE: These scripts are often quite specific and/or rather bulky*
+
 
 ### Abruf3.py
 
@@ -27,3 +29,10 @@ Small script that uses arcpy to divide rasters in a folder by 10
 Calculates relativ air humidity in a raster from known Penman-Monteith Evapotranspiration
 values. Additionaly, rasters with monthly mean temperatures, solar radiation and windspeed
 are required
+
+
+### ExtractByMask.py
+
+*Date: 2015*
+
+Small script that uses ArcGIS' *Extract by Mask* Tool on a number of input rasters
