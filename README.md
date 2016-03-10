@@ -58,6 +58,23 @@ The logic was that one annual table was too large for the taget program to load,
 was split into 2 parts
 
 
+### LAI.py
+
+*Date: 2013*
+
+Convert raw binary LAI3g data (e.g. *.abl format) to GeoTiff. Uses PIL library for basic image correction
+and arcpy for conversion into GeoTiff format.
+
+http://cliveg.bu.edu/modismisr/lai3g-fpar3g.html
+
+
+### raster_means.py
+
+*Date: 2012*
+
+Small script that calculates the mean pixel values of 2 input rasters
+
+
 ### raster_sums.py
 
 *Date: 2013*
