@@ -1,7 +1,15 @@
 # ArcGIS-scripts
-Scripts for ArcGIS 10.x in Python 2.7
+Scripts for ArcGIS 10.x in Python 2.6 & 2.7
 
 *NOTE: These scripts are often quite specific and/or rather bulky*
+
+
+### 10_Day_Means.py
+
+*Date: 2012*
+
+Basically useful for temperature rasters of 10-day values an 10*°C units
+The script returns monthly mean rasters
 
 
 ### Abruf3.py
