@@ -6,7 +6,7 @@ Scripts for ArcGIS 10.x in Python 2.6 & 2.7
 
 ### 10_Day_Means.py
 
-*Date: 2012*
+*Date: 2011*
 
 Basically useful for temperature rasters of 10-day values an 10*°C units
 The script returns monthly mean rasters
@@ -109,7 +109,7 @@ Calculates the sum of pixels for many rasters. Specifically written to handle ra
 
 ### Seasonal_Means.py
 
-*Date: 2012*
+*Date: 2011*
 
 Uses monthly values (e.g. from *10_Day_Means.py*) to calculate seasonal mean values (e.g. of temperatures)
 First year only uses Jan & Feb
