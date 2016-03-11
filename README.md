@@ -100,6 +100,22 @@ relatively
 Small script that calculates the mean pixel values of 2 input rasters
 
 
+### raster_stats.py
+
+*Date: 2014*
+
+Uses input raster timeseries with 2 rasters per month (e.g. NDVI) and zones defined by a shapefile
+to create *.csv tables with rasters statistics within these zones
+
+- Step1: performs an *arcpy ZonalStatisticsAsTable* on the original dataset and produces a *.csv file
+	containing *COUNT, AREA, MIN, MAX, RANGE, MEAN, STD, SUM* for each area distinguished by their OID
+	Output: OrgResults.csv
+- Step2: basically as Step1, however first in-memory rasters are created, storing the bigger of the two
+	monthly values per pixel (useful for NDVI timeseries). 
+	Output: MResults.csv
+- Step3: Uses data from Step2 to create annual & seasonal means
+	Output: AnSeasResults.csv
+
 ### raster_sums.py
 
 *Date: 2013*
