@@ -46,6 +46,13 @@ are required
 Small script that uses ArcGIS' *Extract by Mask* Tool on a number of input rasters
 
 
+### GPS_extract.py
+
+*Date: 2013*
+
+Reads raw-input data from Garmin GPS devices and saves them in a *.txt file with X/Y/Z-coordinates that 
+can easily be imported into ArcGIS.  An XY-Point-Shape-File is created automatically
+
 
 ### JoinTables.py
 
