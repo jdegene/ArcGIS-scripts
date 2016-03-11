@@ -143,3 +143,19 @@ Winter = DDJ
 Spring = FMA
 Summer = JJA
 Fall = SON
+
+
+### SplitTif.py
+
+*Date: 2013*
+
+Splits a multiband tif into single bands. Handles specificially rasters that represent monthly or bi-monthly
+values. Basically the opposite script to Stack.py
+
+
+### SplitTif.py
+
+*Date: 2013*
+
+Stacks multiple single tiffs into a single stacked tiff using *arcpy.CompositeBands_management*. Handles
+specifically multi-year bi-monthly raster data in its current form. Basically the opposite script to SplitTif.py
