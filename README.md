@@ -109,11 +109,16 @@ to create *.csv tables with rasters statistics within these zones
 
 - Step1: performs an *arcpy ZonalStatisticsAsTable* on the original dataset and produces a \*.csv file
 	containing *COUNT, AREA, MIN, MAX, RANGE, MEAN, STD, SUM* for each area distinguished by their OID
+	
 	Output: OrgResults.csv
+	
 - Step2: basically as Step1, however first in-memory rasters are created, storing the bigger of the two
 	monthly values per pixel (useful for NDVI timeseries). 
+	
 	Output: MResults.csv
+	
 - Step3: Uses data from Step2 to create annual & seasonal means
+
 	Output: AnSeasResults.csv
 
 ### raster_sums.py
