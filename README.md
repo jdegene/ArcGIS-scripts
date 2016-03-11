@@ -112,7 +112,7 @@ to create *.csv tables with rasters statistics within these zones
 	*Output: OrgResults.csv*
 	
 - Step2: basically as Step1, however first in-memory rasters are created, storing the bigger of the two
-	monthly values per pixel (useful for NDVI timeseries).   
+	monthly values per pixel (useful for NDVI timeseries)   
 	*Output: MResults.csv*
 	
 - Step3: Uses data from Step2 to create annual & seasonal means   
@@ -123,6 +123,13 @@ to create *.csv tables with rasters statistics within these zones
 *Date: 2013*
 
 Calculates the sum of pixels for many rasters. Specifically written to handle rasters by months and years
+
+
+### ReclassRasters.py 
+
+*Date: 2012*
+
+Small script that reclassifies all rasters in a folder by a Conditional statement
 
 
 ### Seasonal_Means.py
