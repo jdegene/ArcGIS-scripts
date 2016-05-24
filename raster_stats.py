@@ -267,9 +267,6 @@ if STEP12:
 #Write Data, with some modifications into a csv file
 ########################################################
 
-headerStr = ", COUNT, AREA, MIN, MAX, RANGE, MEAN, STD, SUM, ,"
-
-
 if STEP13:
     print "\nStart STEP 1.3"
     
@@ -301,6 +298,10 @@ if STEP13:
     #File headline, depening on number of rows
     w.write("Year, Mon, MonName, Part, ")
     for i in range(numRow):
+        headerStr = ", " + str(oidList[i]) + "_COUNT," + str(oidList[i]) + "_AREA," \
+        + str(oidList[i]) + "_MIN, " + str(oidList[i]) + "_MAX, " + str(oidList[i]) + "_RANGE," \
+        + str(oidList[i]) + "_MEAN, " + str(oidList[i]) + "_STD, " + str(oidList[i]) + "_SUM, ,"
+        
         w.write(fieldName + "_" + str(oidList[i]) + headerStr)
     w.write("\n")
 
