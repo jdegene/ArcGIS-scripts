@@ -7,41 +7,43 @@ from arcpy import env
 from arcpy.sa import *
 
 
-
+arcpy.CheckOutExtension("Spatial")
 
 arcpy.env.overwriteOutput = True
-#arcpy.env.cellSize = 0.1
+#arcpy.env.cellSize = 0.01
 
 
 #Define general working directory
-workDir = ".../workdir/"
+workDir = "D:\\Test\\Michael\\"
 
 #Define value Raster or value Raster Folder
-inDir = workDir + "Test\\"
+#inDir = workDir + "singleTIFF\\"
+inDir = workDir + "NDVI_SPOT_Mongolei\\"
 
 inTableDir = workDir + "OutTable\\"
 if not os.path.exists(inTableDir):
     os.makedirs(inTableDir)
 
 #Define bounding feature or raster
-inZoneData = workDir + "\Shp\\merged.shp"
-zoneField = "FID2"
+inZoneData = workDir + "\Ecozones\\Ecozones_final_Mong.shp"
+zoneField = "Generalize"
 
 #Reference Field in Table, should be the same as zoneField or the OID
 #that is generated during Zonal Statistics
-fieldName = "FID2"
+fieldName = "Generalize"
 
-#Determine which Steps to execute (sub-steps depend on previous sub-steps)
+#Determine which Steps to execute (previous steps need to be run at least
+#once for following steps to be carried out)
 STEP11 = True    #Creation of dbfs from original tiffs
 STEP12 = True    #Reads dbfs and write into Lists
 STEP13 = True    #Write lists to .csv file
 
-STEP21 = True    #Creation of dbfs from in-memory 1-value-per-month-tiff
-STEP22 = True    #Reads dbfs of 2.1 and write into new Lists
-STEP23 = True    #Write 1-value-per-month-lists to .csv file
+STEP21 = 0    #Creation of dbfs from in-memory 1-value-per-month-tiff
+STEP22 = 0    #Reads dbfs of 2.1 and write into new Lists
+STEP23 = 0    #Write 1-value-per-month-lists to .csv file
 
-STEP31 = True      #Use Step2 data to create an annual/seasonal means data
-STEP32 = True      #Write data from 31 to csv file
+STEP31 = 0      #Use Step2 data to create an annual/seasonal means data
+STEP32 = 0      #Write data from 31 to csv file
 
 
 ########################################################
@@ -106,16 +108,27 @@ if STEP11:
     print "Start Part 1.1"
 
     arcpy.CheckOutExtension("Spatial")
+
+    exList = []
+    for files in os.listdir(inTableDir):
+        exList.append(files)
+    
     c = 0
     for files in os.listdir(inDir):
 
         if files[-3:] == "tif" :
 
+            dbfName = files[:-4] + ".dbf"
+
+            if dbfName in exList:       # does not run ZonalStats if dbf file already exists
+                continue
+
             inValueRaster = inDir + files
-            outTable = inTableDir + files[:-4] + ".dbf"
+            outTable = inTableDir + dbfName
+
         
             outZStat = ZonalStatisticsAsTable(inZoneData, zoneField, inValueRaster, 
-                                     outTable, "NODATA", )
+                                     outTable, "DATA", )
 
             c = c+1
             #print c , " " + files
@@ -142,6 +155,16 @@ if STEP12:
         numRow = getRow(firstDBF)
         numFields = getFields(firstDBF)
 
+        
+    # create a List with all entries from zoneField in firstDBF
+    zoneList = []
+    rows = arcpy.SearchCursor(firstDBF)
+    fields = arcpy.ListFields(firstDBF,"",)
+    for row in rows:
+        for field in fields:
+            if field.name == zoneField:
+                zoneList.append(row.getValue(field.name))
+
 
     #Recreate oidList if not done before
     try:
@@ -160,39 +183,83 @@ if STEP12:
     sumList = []
 
 
+
     for tables in os.listdir(inTableDir):
 
         if tables[-3:] == "dbf":
             DBFfile = inTableDir + tables
+
+            # Check if row numbers are the same as in first DB
             rows = arcpy.SearchCursor(DBFfile)
-            fields = arcpy.ListFields(DBFfile,"",)
-
-            #if arcpy.GetCount_management(firstDBF).status != numRow:
-            #    print "ERROR ERROR ERROR" + tables
-
+            count = 0
             for row in rows:
-                for field in fields:
-                    if field.name == "COUNT":
-                        countList.append(row.getValue(field.name))
-                    elif field.name == "AREA":
-                        areaList.append(row.getValue(field.name))
-                    elif field.name == "MIN":
-                        minList.append(row.getValue(field.name))
-                    elif field.name == "MAX":
-                        maxList.append(row.getValue(field.name))
-                    elif field.name == "RANGE":
-                        rangeList.append(row.getValue(field.name))
-                    elif field.name == "MEAN":
-                        meanList.append(row.getValue(field.name))
-                    elif field.name == "STD":
-                        stdList.append(row.getValue(field.name))
-                    elif field.name == "SUM":
-                        sumList.append(row.getValue(field.name))
-            #print tables
-            sys.stdout.write(".")
+                count += 1
+            
+            # if numbers are the same, proceed in standard manner
+            if count == len(zoneList):
+            
+                rows = arcpy.SearchCursor(DBFfile)
+                fields = arcpy.ListFields(DBFfile,"",)
+
+                for row in rows:
+                    for field in fields:
+                        if field.name == "COUNT":
+                            countList.append(row.getValue(field.name))
+                        elif field.name == "AREA":
+                            areaList.append(row.getValue(field.name))
+                        elif field.name == "MIN":
+                            minList.append(row.getValue(field.name))
+                        elif field.name == "MAX":
+                            maxList.append(row.getValue(field.name))
+                        elif field.name == "RANGE":
+                            rangeList.append(row.getValue(field.name))
+                        elif field.name == "MEAN":
+                            meanList.append(row.getValue(field.name))
+                        elif field.name == "STD":
+                            stdList.append(row.getValue(field.name))
+                        elif field.name == "SUM":
+                            sumList.append(row.getValue(field.name))
                 
+                sys.stdout.write(".")
 
 
+            else:
+                rows = arcpy.SearchCursor(DBFfile)
+                fields = arcpy.ListFields(DBFfile,"",)
+
+                # get values missing in current DBFile
+                exField = []
+                for row in rows:
+                    exField.append(row.getValue(zoneField))
+                misVals = [x for x in zoneList if x not in exField]
+
+                for zoneVal in zoneList:
+                    if zoneVal in misVals:
+                        countList.append(" ")
+                        areaList.append(" ")
+                        minList.append(" ")
+                        maxList.append(" ")
+                        rangeList.append(" ")
+                        meanList.append(" ")
+                        stdList.append(" ")
+                        sumList.append(" ")
+
+                    else:
+                        rows = arcpy.SearchCursor(DBFfile)
+                        for row in rows:
+                            if row.getValue(zoneField) == zoneVal:
+                                countList.append(row.getValue("COUNT"))
+                                areaList.append(row.getValue("AREA"))
+                                minList.append(row.getValue("MIN"))
+                                maxList.append(row.getValue("MAX"))
+                                rangeList.append(row.getValue("RANGE"))
+                                meanList.append(row.getValue("MEAN"))
+                                stdList.append(row.getValue("STD"))
+                                sumList.append(row.getValue("SUM"))
+                                
+                        
+                
+                    
 
 
 ########################################################
@@ -218,7 +285,7 @@ if STEP13:
     except:
         firstDBF = getDBFinfo(inTableDir)
         numRow = getRow(firstDBF)
-        numFields = getFields(firstDBF)
+        numFields = getFields(firstDBF)   
 
 
     #Recreate oidList if not done before
@@ -232,16 +299,15 @@ if STEP13:
 
 
     #File headline, depening on number of rows
-    w.write("Year, Mon, MonName, Half, ")
+    w.write("Year, Mon, MonName, Part, ")
     for i in range(numRow):
         w.write(fieldName + "_" + str(oidList[i]) + headerStr)
     w.write("\n")
 
-    nameList = createNameList(inDir, "tif")
+    nameList = createNameList(inDir, "tif")   
 
-
-    for i,j in zip(range(0,len(areaList),numRow), nameList):
-        w.write(j[:4] +","+ j[5:7] +","+ j[7:10] +","+ j[-1:] +", ,")
+    for i,j in zip(range(0,len(areaList),numRow), nameList):        
+        w.write(j[5:9] +","+ j[9:11] +","+ j[0:4] +","+ j[11:13] +", ,")
         for k in range(numRow):
             w.write(str(countList[i+k]) +","+ str(areaList[i+k]) +","+
                     str(minList[i+k]) +","+ str(maxList[i+k]) +","+
@@ -624,4 +690,7 @@ if STEP32:
 
 
     w.close()
+
+    
+print "DONE"
 
