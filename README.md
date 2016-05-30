@@ -152,6 +152,19 @@ Summer = JJA
 Fall = SON
 
 
+### SMOS.py
+
+*Date: 2016*
+
+Uses unzipped SMOS (https://smos-diss.eo.esa.int/oads/access/) data (DBL files) as input
+converts them with the ESA snap command-line tool pconvert.exe to IMG
+
+Uses then arcpy to to convert IMG to GeoTIFF 
+ and crops them in the process to a specified extent and compresses them
+
+
+
+
 ### SplitTif.py
 
 *Date: 2013*
