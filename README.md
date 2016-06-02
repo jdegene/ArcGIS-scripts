@@ -163,7 +163,7 @@ Uses then arcpy to to convert IMG to GeoTIFF
  and crops them in the process to a specified extent and compresses them
 
 
-### SMOS_mosaic.py
+### SMOS_mosaic_daily.py
  
 *Date: 2016*
 

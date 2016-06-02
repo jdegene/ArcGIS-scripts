@@ -18,9 +18,9 @@ workDir = "D:\\Test\\Michael\\"
 
 #Define value Raster or value Raster Folder
 #inDir = workDir + "singleTIFF\\"
-inDir = workDir + "NDVI_SPOT_Mongolei\\"
+inDir = workDir + "Monthly\\"
 
-inTableDir = workDir + "OutTable\\"
+inTableDir = workDir + "OutTableMonthly\\"
 if not os.path.exists(inTableDir):
     os.makedirs(inTableDir)
 
@@ -308,7 +308,7 @@ if STEP13:
     nameList = createNameList(inDir, "tif")   
 
     for i,j in zip(range(0,len(areaList),numRow), nameList):        
-        w.write(j[5:9] +","+ j[9:11] +","+ j[0:4] +","+ j[11:13] +", ,")
+        w.write(j[:4] +","+ j[5:7] +","+ j[4] +","+ j[4] +", ,")
         for k in range(numRow):
             w.write(str(countList[i+k]) +","+ str(areaList[i+k]) +","+
                     str(minList[i+k]) +","+ str(maxList[i+k]) +","+
