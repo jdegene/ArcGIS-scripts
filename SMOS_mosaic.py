@@ -70,7 +70,7 @@ for year in range(startYear, endYear+1):
             for ras in curDayList:
                 rasString = rasString + " ; " + str(ras)
 
-            arcpy.MosaicToNewRaster_management(rasString, outFol, timeStr+".tif", "", "", "", 1, method)
+            arcpy.MosaicToNewRaster_management(rasString, outFol, timeStr+".tif", "", "32_BIT_FLOAT", "", 1, method)
 
         
 
