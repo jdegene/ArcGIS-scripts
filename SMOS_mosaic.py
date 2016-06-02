@@ -72,6 +72,6 @@ for year in range(startYear, endYear+1):
 
             arcpy.MosaicToNewRaster_management(rasString, outFol, timeStr+".tif", "", "32_BIT_FLOAT", "", 1, method)
 
-        print("Year " + yearStr + " done")
+    print("Year " + yearStr + " done")
         
 
