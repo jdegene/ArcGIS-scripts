@@ -163,6 +163,15 @@ Uses then arcpy to to convert IMG to GeoTIFF
  and crops them in the process to a specified extent and compresses them
 
 
+### SMOS_mosaic.py
+ 
+*Date: 2016*
+
+Uses GeoTiff data produced by SMOS.py 
+Files should retain original naming scheme (-> ...yyyymmddThhmmss_YYYYMMDDTHHMMSS_vvv_ccc_s)
+
+The script produces daily mosaics, determined by file name denomination
+
 
 
 ### SplitTif.py
