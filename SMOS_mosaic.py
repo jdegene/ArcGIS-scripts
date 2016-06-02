@@ -5,11 +5,11 @@ Uses SMOS GeoTiff data as input and combines them to multiple rasters to one dai
 import os
 import arcpy
 
-inFol = "D:/Test/SMOStif/subsample/"
+inFol = "D:/Test/SMOStif/Tiffs/"
 outFol = "D:/Test/SMOStif/DailyTiffs/"
 
 # Processing range years
-startYear = 1999
+startYear = 2009
 endYear = 2016
 
 # method of mosaic construction LAST | FIRST | BLEND | MEAN | MINIMUM | MAXIMUM}
@@ -72,5 +72,6 @@ for year in range(startYear, endYear+1):
 
             arcpy.MosaicToNewRaster_management(rasString, outFol, timeStr+".tif", "", "32_BIT_FLOAT", "", 1, method)
 
+        print("Year " + yearStr + " done")
         
 
