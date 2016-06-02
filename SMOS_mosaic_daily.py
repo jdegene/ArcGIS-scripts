@@ -21,9 +21,6 @@ d30List = ["04", "06", "09", "11"]
 # Create a list of all input files
 fileList = [x for x in os.listdir(inFol) if x[-3:] == "tif"]
 
-inFile = "SM_REPR_MIR_SMUDP2_20111230T122201_20111230T131516_620_001_1"
-
-
 for year in range(startYear, endYear+1):
     for month in range(1, 13):
         yearStr = str(year)
