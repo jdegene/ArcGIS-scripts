@@ -27,6 +27,8 @@ for year in range(startYear, endYear+1):
     for month in range(1, 13):
         yearStr = str(year)
 
+        monthList = [] # list will store all the files for a given month
+
         # single digit months need preceding 0
         if month > 9:
             monthStr = str(month)
@@ -51,8 +53,6 @@ for year in range(startYear, endYear+1):
             lastDay = 31
             monBreaks = [10,20,31]
 
-
-        monthList = [] # list will store all the files for a given month
 
         # iterate over 3 monthly breaks
         for i in range(3):
@@ -84,7 +84,7 @@ for year in range(startYear, endYear+1):
                 continue
 
             monthList = monthList + day3List # add current day3List to monthList
-
+            
             # create string for current month part
             timeStr3 = yearStr + monthStr + "_" + str(i)
 
@@ -95,14 +95,15 @@ for year in range(startYear, endYear+1):
 
             arcpy.MosaicToNewRaster_management(rasString, outFol3Mon, timeStr3+".tif", "", "32_BIT_FLOAT", "", 1, method)
 
+        # skip non exisiting months
         if len(monthList) == 0:
             continue
-            
+
         # use monthList (should contain 3 curDay3List) to create monthly mosaic       
         # rasString, arcpy needs rasters as string separated by ;
         rasMonString = ""
         for rasMon in monthList:
-            rasMonString = rasString + " ; " + str(rasMon)
+            rasMonString = rasMonString + " ; " + str(rasMon)
 
         # create string for current month part
         timeStr = yearStr + monthStr
@@ -110,5 +111,3 @@ for year in range(startYear, endYear+1):
         arcpy.MosaicToNewRaster_management(rasMonString, outFolMon, timeStr+".tif", "", "32_BIT_FLOAT", "", 1, method)
 
         print timeStr + " done"
-
-    print("Year " + yearStr + " done")
