@@ -173,6 +173,15 @@ Files should retain original naming scheme (-> ...yyyymmddThhmmss_YYYYMMDDTHHMMS
 The script produces daily mosaics, determined by file name denomination
 
 
+### SMOS_mosaic_monthly.py
+ 
+*Date: 2016*
+
+Similar to SMOS_mosaic_daily.py -> uses the same input from SMOS.py, but produces monthly and part monthly output
+
+Output is in 2 different locations. One location will store monthly mosaic rasters, the other will store 3 rasters per month. 
+Monthly parts are 10 days each for 30-day-months, 10-10-11 for 31-day-months, 9-10-9 for 28-day-months and 9-10-10 for 29-day-months
+
 
 ### SplitTif.py
 
