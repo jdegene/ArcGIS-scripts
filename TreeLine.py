@@ -1,4 +1,5 @@
-### Uses a DEM and a forest raster as input
+### Calculate the treeline from a DEM and a forest raster
+### Output is a raster with points along the treeline
 ### calculates for each pixel if it a) the it is forest b) the highest forest pixel in the vicinity
 ### and c) if there exists non forest land at higher altitude in the vicinity
 
@@ -18,7 +19,7 @@ arcpy.CheckOutExtension("Spatial")
 arcpy.env.workspace = 'D:/Test/Michael/Wald_Jan/Scratch/'
 
 # Inputs / Outputs
-inDGM = 'D:/Test/Michael/Wald_Jan/DGM_Mongolei.tif'
+inDGM = 'D:/Test/Michael/Wald_Jan/DGM_Mongolei_SRTM_90.tif'
 inForest = 'D:/Test/Michael/Wald_Jan/Wald_Raster_90m.tif'
 outFile = 'D:/Test/Michael/Wald_Jan/Waldgrenzen/Waldgrenze.tif'
 
@@ -50,12 +51,12 @@ dgmFoc = FocalStatistics("dgm_layer", NbrAnnulus(0, nonForest, "CELL"),
 
 # create new raster with 1 where highest altitude in forest in vicinity and where higher elev. exisits
 outCon = Con( (alt_forst == alt_forstFoc) & (dgmFoc-alt_diff > dgm), 1)
-#outCon = Con( (alt_forst == alt_forstFoc), 1)
+
 outCon.save(outFile[:-4] + "_" + str(forestRadius) + "_" + str(nonForest) + "_" + str(alt_diff) + outFile[-4:])
 
-# Delete files created on HDD
-#arcpy.Delete_management(alt_forstFoc)
-#arcpy.Delete_management(dgmFoc )
 
+# Delete files created on HDD
+arcpy.Delete_management(alt_forstFoc)
+arcpy.Delete_management(dgmFoc )
 
 arcpy.CheckInExtension("Spatial")
