@@ -36,7 +36,6 @@ alt_forst = SetNull(forest, dgm, "VALUE <> 0")
 
 # Create Raster Layers from input data
 arcpy.MakeRasterLayer_management(inDGM, "dgm_layer")
-arcpy.MakeRasterLayer_management(inForest, "forest_layer")
 arcpy.MakeRasterLayer_management(alt_forst, "alt_forest_layer")
 
 # create Focal Statistics, each pixel in the output raster gets the maximum value of the cell in radius
@@ -45,15 +44,13 @@ alt_forstFoc = FocalStatistics("alt_forest_layer", NbrAnnulus(1, forestRadius, "
 dgmFoc = FocalStatistics("dgm_layer", NbrAnnulus(1, nonForest, "CELL"), 
                                "MAXIMUM", "DATA")
 
-
+# create new raster with 1 where highest altitude in forest in vicinity and where higher elev. exisits
 outCon = Con( (alt_forst == alt_forstFoc) & (dgmFoc > dgm), 1)
-
 outCon.save(outFile)
 
 # Delete files created on HDD
 arcpy.Delete_management(alt_forstFoc)
 arcpy.Delete_management(dgmFoc )
-
 
 
 arcpy.CheckInExtension("Spatial")
