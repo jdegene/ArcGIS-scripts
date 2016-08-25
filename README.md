@@ -197,3 +197,11 @@ values. Basically the opposite script to Stack.py
 
 Stacks multiple single tiffs into a single stacked tiff using *arcpy.CompositeBands_management*. Handles
 specifically multi-year bi-monthly raster data in its current form. Basically the opposite script to SplitTif.py
+
+
+### TreeLine.py
+
+*Date: 2016*
+
+Takes an DEM input raster and a forest raster (0 == forest, NoData == no Forest) and calculates pixels that indicate the local tree line.
+If a tree pixel is at the highest altitude compared to neighbouring pixels and there is land above this altitude without trees, this indicates the treeline.
