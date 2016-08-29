@@ -1,7 +1,8 @@
 ### Calculate the treeline from a DEM and a forest raster
-### Output is a raster with points along the treeline
-### calculates for each pixel if it a) the it is forest b) the highest forest pixel in the vicinity
-### and c) if there exists non forest land at higher altitude in the vicinity
+### Output is a raster with points along the upper (1) and lower (2) treeline
+### calculates for each pixel if it a) is forest b) is the highest/lowest forest pixel in the vicinity
+### c) if there exists non forest land at higher altitude in the vicinity and
+### d) if the resulting pixel has a minimum slope to exclude flat land forest
 
 
 import os, sys, arcpy
@@ -39,13 +40,12 @@ nonForest = 5    # is there a higher elevation at all in this radius
 
 # Altitude difference in meter, minimum slope
 alt_diff = 50
-minSlope = 3
+minSlope = 2
 
 
 ##################################
  # MAIN CALCULATION PART #
 ##################################
-
 
 dgm = Raster(inDGM)
 slope = Raster(inSlope)
@@ -80,7 +80,8 @@ outCon = Con( (alt_forst == alt_max_forstFoc) &
 
               Con( (alt_forst == alt_max_forstFoc) &
                    (dgmFoc_min + alt_diff < dgm) &
-                   (slope > minSlope), 2) # lower tree boundary
+                   (slope > minSlope), 2
+                   ) # lower tree boundary
               
               )
 
