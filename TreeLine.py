@@ -39,7 +39,7 @@ nonForest = 5    # is there a higher elevation at all in this radius
 
 # Altitude difference in meter, minimum slope
 alt_diff = 50
-minSlope = 2
+minSlope = 3
 
 
 ##################################
@@ -79,7 +79,7 @@ outCon = Con( (alt_forst == alt_max_forstFoc) &
               (slope > minSlope), 1, # upper tree boundary 
 
               Con( (alt_forst == alt_max_forstFoc) &
-                   (dgmFoc_min+alt_diff > dgm) &
+                   (dgmFoc_min + alt_diff < dgm) &
                    (slope > minSlope), 2) # lower tree boundary
               
               )
