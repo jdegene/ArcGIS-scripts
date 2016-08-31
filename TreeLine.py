@@ -27,9 +27,9 @@ arcpy.CheckOutExtension("Spatial")
 
 
 # Inputs / Outputs
-inDGM = 'D:/Test/Michael/Wald_Jan/DGM_Mongolei_SRTM_90.tif' # DEM file in meters altitude
-inForest = 'D:/Test/Michael/Wald_Jan/Wald_Raster_90m.tif'   # Forest file, 0 = Forest, NoData = no forest
-inSlope = 'D:/Test/Michael/Wald_Jan/Slope_WGS_degree.tif'       # Slope in Degree per Pixel
+inDGM = 'D:/Test/Michael/Wald_Jan/DGM_SRTM_90_Mongolei_Mega.tif' # DEM file in meters altitude
+inForest = 'D:/Test/Michael/Wald_Jan/Wald_Raster_Mega_90m.tif'   # Forest file, 0 = Forest, NoData = no forest
+inSlope = 'D:/Test/Michael/Wald_Jan/Slope_WGS_Mega_degree.tif'  # Slope in Degree per Pixel
 
 outFile = 'D:/Test/Michael/Wald_Jan/Waldgrenzen/Waldgrenze.tif' # Basic output name, will be extended by parameters
 
@@ -39,8 +39,11 @@ forestRadius = 5 # is there forest at higher altitude in this radius
 nonForest = 5    # is there a higher elevation at all in this radius
 
 # Altitude difference in meter, minimum slope
-alt_diff = 50
+alt_diff = 100
 minSlope = 2
+
+# Output format spec, 0 = raster pixels, 1 = shapefile
+outFormat = 1
 
 
 ##################################
@@ -78,7 +81,7 @@ outCon = Con( (alt_forst == alt_max_forstFoc) &
               (dgmFoc_max - alt_diff > dgm) &
               (slope > minSlope), 1, # upper tree boundary 
 
-              Con( (alt_forst == alt_max_forstFoc) &
+              Con( (alt_forst == alt_min_forstFoc) &
                    (dgmFoc_min + alt_diff < dgm) &
                    (slope > minSlope), 2
                    ) # lower tree boundary
@@ -90,9 +93,16 @@ outCon = Con( (alt_forst == alt_max_forstFoc) &
  # OUTPUT CREATION AND DELETION #
 ##################################
 
-outCon.save(outFile[:-4] + "_" + str(forestRadius) + "_" +
-            str(nonForest) + "_" +
+# decide if output should be raster or shapefile
+if outFormat == 0:
+    outCon.save(outFile[:-4] + "_" + str(forestRadius) + "_" +
+            str(nonForest) + "_" + str(alt_diff) + "_" +
             str(minSlope) + outFile[-4:])
+else:
+    outSHP = outFile[:-4] + "_" + str(forestRadius) + "_" + \
+            str(nonForest) + "_" + str(alt_diff) + "_" + \
+            str(minSlope) + ".shp"
+    arcpy.RasterToPoint_conversion(outCon, outSHP, 'Value')
 
 
 # Delete files created on HDD
