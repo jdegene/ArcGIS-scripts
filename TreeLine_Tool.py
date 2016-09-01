@@ -38,9 +38,10 @@ nonForestDown   = int(arcpy.GetParameterAsText(8))
 alt_diff_up = float(arcpy.GetParameterAsText(9))
 alt_diff_down = float(arcpy.GetParameterAsText(10))
 minSlope = float(arcpy.GetParameterAsText(11))
+relPar = float(arcpy.GetParameterAsText(12))
 
 # Output format spec, 0 = raster pixels, 1 = shapefile
-outFormat = int(arcpy.GetParameterAsText(12))
+outFormat = int(arcpy.GetParameterAsText(13))
 
 
 ##################################
@@ -77,11 +78,23 @@ arcpy.AddMessage("Create Focal Statistics for  minimum  altitude in vicinity")
 dgmFoc_min = FocalStatistics("dgm_layer", NbrAnnulus(0, nonForestDown, "CELL"), 
                                "MINIMUM", "DATA")
 
+arcpy.AddMessage("Create Focal Statistics for  maximum  altitude in 100px radius")
+dgmFoc_max100 = FocalStatistics("dgm_layer", NbrAnnulus(0, 100, "CELL"), 
+                               "MAXIMUM", "DATA")
+arcpy.AddMessage("Create Focal Statistics for  minimum  altitude in 100px radius")
+dgmFoc_min100 = FocalStatistics("dgm_layer", NbrAnnulus(0, 100, "CELL"), 
+                               "MINIMUM", "DATA")
+
+reliefIndex = dgm / ( (dgmFoc_max100 + dgmFoc_min100) / 2 )
+
+
+
 arcpy.AddMessage("Preprocessing finished: use Focal Statistics to determine treeline")
 # create new raster with 1 where highest altitude in forest in vicinity and where higher elev. exisits
 outCon = Con( (alt_forst == alt_max_forstFoc) &
               (dgmFoc_max - alt_diff_up > dgm) &
-              (slope > minSlope), 1, # upper tree boundary 
+              (slope > minSlope) &
+              (reliefIndex > relPar), 1, # upper tree boundary 
 
               Con( (alt_forst == alt_min_forstFoc) &
                    (dgmFoc_min + alt_diff_down < dgm) &
@@ -95,7 +108,7 @@ outCon = Con( (alt_forst == alt_max_forstFoc) &
  # OUTPUT CREATION AND DELETION #
 ##################################
 
-arcpy.AddMessage("Saving Output")
+arcpy.AddMessage("Saving Output... can take some time for shapefiles as DEM values are extracted")
 # decide if output should be raster or shapefile
 if outFormat == 0:
     outCon.save(outFol + "WG_" +
@@ -115,7 +128,9 @@ else:
                           inDGM,
                           outFol + createSHP[createSHP.rfind('/')+1 : ] # outSHP name
                           )
-arcpy.AddMessage(outFol + createSHP[createSHP.rfind('/')+1 : ])
+    
+    arcpy.AddMessage(outFol + createSHP[createSHP.rfind('/')+1 : ])
+    
 arcpy.AddMessage("Deleting intermediary data files")
 # Delete files created on HDD
 deleteList = [alt_max_forstFoc, alt_min_forstFoc, dgmFoc_max, dgmFoc_min, createSHP]
