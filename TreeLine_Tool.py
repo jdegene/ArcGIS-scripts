@@ -38,7 +38,10 @@ nonForestDown   = int(arcpy.GetParameterAsText(8))
 alt_diff_up = float(arcpy.GetParameterAsText(9))
 alt_diff_down = float(arcpy.GetParameterAsText(10))
 minSlope = float(arcpy.GetParameterAsText(11))
-relPar = float(arcpy.GetParameterAsText(12))
+
+# relief parameter, check if value contains german comma and substitute by decimal point
+rawPar = arcpy.GetParameterAsText(12)
+relPar = float(rawPar.replace(',','.'))
 
 # Output format spec, 0 = raster pixels, 1 = shapefile
 outFormat = int(arcpy.GetParameterAsText(13))
